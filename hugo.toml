@@ -1,0 +1,27 @@
+baseURL = 'https://imBadika.github.io/'
+languageCode = 'ru-ru'
+title = '.bdk writeups'
+theme = 'PaperMod'
+
+[params]
+    env = "production"
+    title = ".bdk writeups"
+    description = "Райтапы"
+    defaultTheme = "dark" # По умолчанию всегда будет включаться темная тема
+    
+    # Меню навигации
+    [[params.menu.main]]
+        name = "Главная"
+        url = "/"
+        weight = 10
+    [[params.menu.main]]
+        name = "Райтапы В"
+        url = "/posts/"
+        weight = 20
+
+[markup]
+  [markup.highlight]
+    codeFences = true
+    guessSyntax = true
+    lineNos = true # Включает нумерацию строк в блоках с кодом
+    style = "monokai" # Стиль подсветки синтаксиса
