@@ -42,7 +42,29 @@
     {{- end }}
     
   </article>
+  {{- if .Params.tags }}
+    <div class="post-tags-inline">
+      {{- range .Params.tags }}
+      <a href="{{ "tags/" | relLangURL }}{{ . | urlize }}/" class="tag-pill">{{ . }}</a>
+      {{- end }}
+    </div>
+    {{- end }}
+    
+  </article>
+  {{- else }}
+  <article class="post-entry security-capsule" style="text-align: center; padding: 40px 20px !important;">
+    <header class="entry-header" style="justify-content: center;">
+      <h2 style="justify-content: center; font-size: 24px !important;">
+        <span class="hack-icon">📁</span>
+        Здесь пока что пусто...
+      </h2>
+    </header>
+    <p style="margin-top: 14px; color: var(--secondary); font-size: 14px; text-align: center !important;">
+      Когда-то здесь появятся заметки.
+    </p>
+  </article>
   {{- end }}
+</div>
 </div>
 
 {{- if gt $paginator.TotalPages 1 }}
