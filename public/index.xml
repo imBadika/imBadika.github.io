@@ -6,6 +6,52 @@
     <description>Recent content on .bdk writeups</description>
     <generator>Hugo</generator>
     <language>ru-ru</language>
+    <lastBuildDate>Sun, 21 Jun 2026 15:29:04 +0700</lastBuildDate>
     <atom:link href="http://localhost:1313/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>My New Writeup</title>
+      <link>http://localhost:1313/posts/my-new-writeup/</link>
+      <pubDate>Sun, 21 Jun 2026 15:29:04 +0700</pubDate>
+      <guid>http://localhost:1313/posts/my-new-writeup/</guid>
+      <description>&lt;div class=&#34;highlight&#34;&gt;&lt;div style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;&#34;&gt;
+&lt;table style=&#34;border-spacing:0;padding:0;margin:0;border:0;&#34;&gt;&lt;tr&gt;&lt;td style=&#34;vertical-align:top;padding:0;margin:0;border:0;&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;&#34;&gt;&lt;code&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;1
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;2
+&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;3
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td style=&#34;vertical-align:top;padding:0;margin:0;border:0;;width:100%&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;$ whoami
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;$ sudo su
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;# id&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;d&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Обо мне</title>
+      <link>http://localhost:1313/about/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/about/</guid>
+      <description>&lt;h2 id=&#34;добро-пожаловать-&#34;&gt;Добро пожаловать! 👋&lt;/h2&gt;
+&lt;blockquote&gt;
+&lt;p&gt;&lt;strong&gt;Главная цель моего блога&lt;/strong&gt; — совершенствование практических навыков в сфере информационной безопасности и обмен полученным опытом с остальными.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;hr&gt;
+&lt;h3 id=&#34;-основные-направления-блога&#34;&gt;🎯 Основные направления блога&lt;/h3&gt;
+&lt;p&gt;Материалы в блоге разделены на две ключевые категории, которые помогают мне структурировать базу знаний:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;⛓️‍💥 &lt;strong&gt;Райтапы (&lt;code&gt;Writeups&lt;/code&gt;)&lt;/strong&gt; — подробные разборы прохождения лабораторных машин на платформе &lt;strong&gt;HackTheBox&lt;/strong&gt;.&lt;/li&gt;
+&lt;li&gt;📝 &lt;strong&gt;Заметки (&lt;code&gt;Notes&lt;/code&gt;)&lt;/strong&gt; — информационные и теоретические статьи, где я самостоятельно излагаю материал, который изучил.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;hr&gt;
+&lt;h3 id=&#34;-платформы&#34;&gt;🛡️ Платформы&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;🟢 &lt;strong&gt;HackTheBox:&lt;/strong&gt; &lt;a href=&#34;https://profile.hackthebox.com/profile/019edad9-b2ec-72ca-812c-37fbd43a892c&#34;&gt;посмотреть профиль&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;🔴 &lt;strong&gt;TryHackMe:&lt;/strong&gt; &lt;a href=&#34;https://tryhackme.com/p/imbadika.44&#34;&gt;посмотреть профиль&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&#34;-дисклеймер&#34;&gt;⚠️ Дисклеймер&lt;/h3&gt;
+&lt;blockquote&gt;
+&lt;p&gt;&lt;strong&gt;ВАЖНО:&lt;/strong&gt; все имеющиеся в данном блоге материалы демонстрируются исключительно в образовательных целях. Автор не приветствует и ни в коем случае не призывает использовать все описанные методы в не авторизованных для этого местах (без прямого разрешения владельца информационного ресурса или любого другого продукта).&lt;/p&gt;</description>
+    </item>
   </channel>
 </rss>

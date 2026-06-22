@@ -8,16 +8,28 @@ theme = 'PaperMod'
     title = ".bdk writeups"
     description = "Райтапы"
     defaultTheme = "dark" # По умолчанию всегда будет включаться темная тема
+    disableSpecial1stPost = true
     
     # Меню навигации
-    [[params.menu.main]]
-        name = "Главная"
-        url = "/"
-        weight = 10
-    [[params.menu.main]]
-        name = "Райтапы В"
-        url = "/posts/"
-        weight = 20
+    [[menu.main]]
+    name = "Главная"
+    url = "/"
+    weight = 1
+    
+    [[menu.main]]
+    name = "Райтапы"
+    url = "/categories/writeups/"
+    weight = 2
+
+    [[menu.main]]
+    name = "Заметки"
+    url = "/categories/notes/"
+    weight = 3
+
+    [[menu.main]]
+    name = "Обо мне"
+    url = "/about/"
+    weight = 4
 
 [markup]
   [markup.highlight]
