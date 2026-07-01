@@ -8,7 +8,7 @@
     <loc>http://localhost:1313/categories/</loc>
     <lastmod>2026-06-21T15:29:04+07:00</lastmod>
   </url><url>
-    <loc>http://localhost:1313/posts/my-new-writeup/</loc>
+    <loc>http://localhost:1313/tags/linux/</loc>
     <lastmod>2026-06-21T15:29:04+07:00</lastmod>
   </url><url>
     <loc>http://localhost:1313/posts/</loc>
@@ -17,11 +17,13 @@
     <loc>http://localhost:1313/tags/</loc>
     <lastmod>2026-06-21T15:29:04+07:00</lastmod>
   </url><url>
-    <loc>http://localhost:1313/tags/windows/</loc>
+    <loc>http://localhost:1313/posts/cherryblossom/</loc>
     <lastmod>2026-06-21T15:29:04+07:00</lastmod>
   </url><url>
     <loc>http://localhost:1313/categories/writeups/</loc>
     <lastmod>2026-06-21T15:29:04+07:00</lastmod>
+  </url><url>
+    <loc>http://localhost:1313/categories/notes/</loc>
   </url><url>
     <loc>http://localhost:1313/about/</loc>
   </url>

